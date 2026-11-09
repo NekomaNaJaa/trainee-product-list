@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Product Store
+
+Trainee Assignment #1: Product Listing + Detail Page (Next.js)
+
+เว็บแสดงสินค้า 2 หน้า ดึงข้อมูลจาก [Fake Store API](https://fakestoreapi.com) ด้วย Axios
+
+## Features
+
+- **Product List:** แสดงสินค้าเป็น grid (รูป, ชื่อ, ราคา) พร้อมปุ่มไปหน้ารายละเอียด
+- **Product Detail:** แสดงรูป, ชื่อ, ราคา, หมวดหมู่ และรายละเอียดสินค้า
+- **Responsive:** grid 2 / 3 / 4 คอลัมน์ ตามขนาดหน้าจอ (mobile / tablet / desktop)
+- **Loading state:** Skeleton UI ทั้งหน้า List และ Detail
+- **Error state:** แสดงข้อความและมีปุ่ม "ลองใหม่"
+- **Search และ Filter:** ค้นหาตามชื่อสินค้า และกรองตามหมวดหมู่
+- **Not found:** แสดงข้อความ "ไม่พบสินค้า" เมื่อ id ไม่ถูกต้อง
+
+## Tech Stack
+
+- Next.js (App Router)
+- TypeScript
+- Axios
+- Tailwind CSS
+
+## API
+
+| Method | Endpoint | ใช้ทำอะไร |
+|---|---|---|
+| GET | `https://fakestoreapi.com/products` | ดึงรายการสินค้าทั้งหมด |
+| GET | `https://fakestoreapi.com/products/{id}` | ดึงสินค้าตาม id |
 
 ## Getting Started
 
-First, run the development server:
+ต้องมี Node.js 20 ขึ้นไป
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด [http://localhost:3000](http://localhost:3000) (หน้าแรกจะ redirect ไป `/products`)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+คำสั่งอื่น
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint    # ตรวจโค้ดด้วย ESLint
+npm run build   # build สำหรับ production
+npm run start   # รันผล build
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+ ┣ app/
+ │ ┣ page.tsx                 redirect ไป /products
+ │ ┣ products/page.tsx        หน้า Product List
+ │ ┗ products/[id]/page.tsx   หน้า Product Detail
+ ┣ components/
+ │ ┣ ProductCard.tsx
+ │ ┣ ProductDetail.tsx
+ │ ┣ ProductFilters.tsx
+ │ ┣ ProductSkeleton.tsx
+ │ ┣ ProductDetailSkeleton.tsx
+ │ ┗ ErrorMessage.tsx
+ ┣ lib/api.ts                 Axios instance
+ ┣ services/products.ts       ฟังก์ชันเรียก API
+ ┗ types/product.ts           TypeScript types
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Implementation Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- ดึงข้อมูลด้วย `useEffect` + `useState` ใน Client Component และใช้ `AbortController` ยกเลิก request ตอน component ถูกถอดหรือเมื่อ id เปลี่ยน
+- หน้า List ดึงสินค้าครั้งเดียว แล้วกรองด้วย Search และ Filter ใน browser
+- หน้า Detail อ่าน `id` ด้วย `useParams()` ซึ่งต้องครอบด้วย `<Suspense>` เพราะ Next.js 16 เปิด Cache Components
+- รูปสินค้าโหลดผ่าน `next/image` จึงตั้ง `images.remotePatterns` สำหรับ `fakestoreapi.com` ใน `next.config.ts`
 
-## Deploy on Vercel
+## Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Product List | Product Detail |
+|---|---|
+| ![Product List](docs/screenshots/products-desktop.png) | ![Product Detail](docs/screenshots/detail-desktop.png) |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Product List (tablet) | Product Detail (tablet) |
+|---|---|
+| ![Product List mobile](docs/screenshots/products-tablet.png) | ![Product Detail mobile](docs/screenshots/detail-tablet.png) |
+
+| Product List (mobile) | Product Detail (mobile) |
+|---|---|
+| ![Product List mobile](docs/screenshots/products-mobile.png) | ![Product Detail mobile](docs/screenshots/detail-mobile.png) |
