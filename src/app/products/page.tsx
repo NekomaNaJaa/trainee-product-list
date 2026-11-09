@@ -5,7 +5,7 @@ import axios from "axios";
 import ErrorMessage from "@/components/ErrorMessage";
 import ProductCard from "@/components/ProductCard";
 import ProductFilters from "@/components/ProductFilters";
-import ProductSkeleton from "@/components/ProductSkeleton";
+import ProductSkeleton, { ProductFiltersSkeleton } from "@/components/ProductSkeleton";
 import { getProducts } from "@/services/products";
 import type { Product } from "@/types/product";
 
@@ -63,6 +63,8 @@ export default function ProductsPage() {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">Products</h1>
+
+      {loading && <ProductFiltersSkeleton />}
 
       {!loading && !error && (
         <ProductFilters

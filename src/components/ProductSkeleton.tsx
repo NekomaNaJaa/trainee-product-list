@@ -11,3 +11,12 @@ export default function ProductSkeleton() {
     </div>
   );
 }
+
+export function ProductFiltersSkeleton() {
+  return (
+    <div className="mb-6 flex animate-pulse flex-col gap-3 sm:flex-row">
+      <div className="h-10 w-full flex-1 rounded-lg bg-gray-200" />
+      <div className="h-10 w-full rounded-lg bg-gray-200 sm:w-44" />
+    </div>
+  );
+}
