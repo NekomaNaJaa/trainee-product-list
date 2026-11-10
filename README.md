@@ -69,6 +69,8 @@ src/
 
 ## Implementation Notes
 
+- Tailwind CSS is processed by PostCSS through `postcss.config.mjs` and scans `src/` for utility classes.
+- The root URL redirects to `/products` through the Next.js redirects configuration.
 - ดึงข้อมูลด้วย `useEffect` + `useState` ใน Client Component และใช้ `AbortController` ยกเลิก request ตอน component ถูกถอดหรือเมื่อ id เปลี่ยน
 - หน้า List ดึงสินค้าครั้งเดียว แล้วกรองด้วย Search และ Filter ใน browser
 - หน้า Detail อ่าน `id` ด้วย `useParams()` ซึ่งต้องครอบด้วย `<Suspense>` เพราะ Next.js 16 เปิด Cache Components
